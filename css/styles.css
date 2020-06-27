@@ -1,0 +1,49 @@
+/**GLOBALES**/
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body{
+    margin: 0;
+}
+
+h1 {
+  font-size: 3em;
+  margin: 0.67em 0;
+}
+
+h2{
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+/**UTILIDADES**/
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/**HEADER**/
+
+.header{
+padding: 1rem;
+background: -moz-linear-gradient(left, rgba(181,218,238,1) 0%, rgba(42,176,229,1) 48%, rgba(190,222,239,1) 100%);
+background: -webkit-gradient(left top, right top, color-stop(0%, rgba(181,218,238,1)), color-stop(48%, rgba(42,176,229,1)), color-stop(100%, rgba(190,222,239,1)));
+background: -webkit-linear-gradient(left, rgba(181,218,238,1) 0%, rgba(42,176,229,1) 48%, rgba(190,222,239,1) 100%);
+background: -o-linear-gradient(left, rgba(181,218,238,1) 0%, rgba(42,176,229,1) 48%, rgba(190,222,239,1) 100%);
+background: -ms-linear-gradient(left, rgba(181,218,238,1) 0%, rgba(42,176,229,1) 48%, rgba(190,222,239,1) 100%);
+background: linear-gradient(to right, rgba(181,218,238,1) 0%, rgba(42,176,229,1) 48%, rgba(190,222,239,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b5daee', endColorstr='#bedeef', GradientType=1 );
+text-align: center;
+}
+
+/**MAIN**/
+
+.contenido{
+    text-align: center;
+}
