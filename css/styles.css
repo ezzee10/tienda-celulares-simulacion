@@ -1,3 +1,7 @@
+:root{
+  --comprar : #5bc500;
+}
+
 /**GLOBALES**/
 
 html {
@@ -11,6 +15,10 @@ body{
     margin: 0;
 }
 
+p{
+  margin: 0.7rem;
+}
+
 h1 {
   font-size: 3em;
   margin: 0.67em 0;
@@ -22,9 +30,21 @@ h2{
 }
 
 /**UTILIDADES**/
-.container{
-    max-width: 1200px;
+ .container{
+    max-width: 85%;
     margin: 0 auto;
+    text-align: center;
+  }
+
+
+.boton{
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  max-width: 100%;
+  padding: 10px 30px;
+  background-color: var(--comprar);
+  border-radius: 10px;
+  color: white;
 }
 
 
@@ -46,15 +66,47 @@ text-align: center;
 
 .contenido{
     text-align: center;
+    display: grid;
+    grid-template-columns: 2fr 0.5fr;
 }
+
 
 .productos{
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
 }
 
+@media (min-width: 768px){
+  .productos{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
 .producto{
-  border: 2px solid #e1e1e1;
   padding: 10px 0;
+  margin-bottom: 1rem;
+}
+
+.nombre{
+  font-size: 1.1rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.marca{
+  font-size: 1.1rem;
+  font-family: sans-serif;
+}
+
+.precio{
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+/**CARRITO**/
+
+.carrito{
+  border: 1px solid #5bc500;
 }
 
