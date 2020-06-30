@@ -1,10 +1,13 @@
+
+
 /**CARRITO */
 
-const carrito = document.querySelector(".carrito");
+//--------------------------variables globales--------------------------------------//
 let valorCarrito = 0;
 let cantidadItems = 0;
 
-//carrito with scripting
+//-----------------------------creación del carrito--------------------------------------//
+const carrito = document.querySelector(".carrito");
 const header = document.createElement("div");
 const logo = document.createElement("i");
 const titulo = document.createElement("p");
@@ -13,56 +16,105 @@ const items = document.createElement("p");
 items.innerHTML = `${cantidadItems} items`;
 const totalContainer = document.createElement("div");
 const totalprecio = document.createElement("p");
-totalprecio.innerHTML = `Total: $${valorCarrito}`;
 carrito.appendChild(header);
 header.appendChild(logo);
 header.appendChild(titulo);
 header.appendChild(items);
 totalContainer.appendChild(totalprecio);
-header.appendChild(totalContainer);
+carrito.appendChild(totalContainer);
 
 
+const containerProducto = document.createElement("div");
+containerProducto.classList.add("container-productos");
+const carritoVacio = document.createElement("p");
+carritoVacio.innerHTML = "No tiene ningún artículo en el carro de compras";
+containerProducto.appendChild(carritoVacio);
+carrito.appendChild(containerProducto);
 
-const agregarAlCarrito = (valor) => {
+//----------------------------------funciones-------------------------------------------------------------//
+
+const agregarAlCarrito = (valor, nombre) => {
 
     valorCarrito += valor;
     cantidadItems++;
+    carritoVacio.innerHTML = "";
+    totalprecio.innerHTML = `Total: $${valorCarrito}`;
 
     //Actualizando la cantidad de items y el total de precios
     items.innerHTML = `${cantidadItems} items`;
-    totalprecio.innerHTML = `Total: $${valorCarrito.toFixed(3)}`;
+    totalprecio.innerHTML = `Total: $${valorCarrito}`;
 
-    //Agregando los carritos with scripting
-    const containerProducto = document.createElement("div");
-    const fotoProducto = document.createElement("img");
-    const valorProducto = document.createElement("p");
-    const nombreProducto = document.createElement("p");
-    const disminuirCantidad = document.createElement("button");
-    const contenedorStock = document.createElement("div");
-    const valorStock = document.createElement("p");
-    const aumentarCantidad = document.createElement("button");
-    const eliminarProducto = document.createElement("button");
-
-    containerProducto.appendChild(fotoProducto);
-    containerProducto.appendChild(valorProducto);
-    containerProducto.appendChild(nombreProducto);
-    containerProducto.appendChild(disminuirCantidad);
-    contenedorStock.appendChild(valorStock);
-    containerProducto.appendChild(contenedorStock);
-    containerProducto.appendChild(aumentarCantidad);
-    containerProducto.appendChild(eliminarProducto);
-
-    carrito.appendChild(containerProducto);
-
-
-
-
-
-
-
-
-    console.log("carrito actual", "$" + valorCarrito.toFixed(3));
+    agregarScriptingCarrito(valor, nombre);
+    console.log(valorCarrito);
 }
+
+
+
+const agregarScriptingCarrito = (valor, nombre) => {
+    //Agregando los productos with scripting
+    const producto = document.createElement("div");
+    producto.classList.add("producto");
+
+    const fotoProducto = document.createElement("img");
+
+    const valorProducto = document.createElement("p");
+
+    const nombreProducto = document.createElement("p");
+    nombreProducto.innerHTML = (`${nombre}`);
+
+    const disminuirCantidad = document.createElement("button");
+    disminuirCantidad.innerHTML = "-";
+
+    const cantidadProductos = document.createElement("div");
+    cantidadProductos.classList.add("agregar-productos");
+
+    const cantidad = document.createElement("p");
+    cantidad.innerHTML = (`${1.0}`);
+
+    const precioProducto = document.createElement("p");
+    precioProducto.innerHTML = (`${valor}`);
+
+    const aumentarCantidad = document.createElement("button");
+    aumentarCantidad.innerHTML = "+";
+
+    const eliminarProducto = document.createElement("button");
+    eliminarProducto.innerHTML = "Eliminar";
+    eliminarProducto.setAttribute("type", "button");
+    eliminarProducto.addEventListener('click', deleteProducto);
+
+    producto.appendChild(fotoProducto);
+    producto.appendChild(precioProducto);
+    producto.appendChild(nombreProducto);
+    producto.appendChild(cantidadProductos);
+    cantidadProductos.appendChild(disminuirCantidad);
+    cantidadProductos.appendChild(cantidad);
+    cantidadProductos.appendChild(aumentarCantidad);
+    producto.appendChild(eliminarProducto);
+    containerProducto.appendChild(producto);
+}
+
+//Eliminar producto añadido al carrito
+const deleteProducto = (e) => {
+
+    let precio = parseFloat(e.target.parentNode.firstChild.nextSibling.textContent);
+    e.target.parentElement.remove();
+    cantidadItems--;
+    valorCarrito -= precio;
+    carritoEstaVacio();
+    items.innerHTML = `${cantidadItems} items`;
+}
+
+//El carrito está vacio
+const carritoEstaVacio = () => {
+    if (valorCarrito === 0) {
+        totalprecio.innerHTML = ``;
+        carritoVacio.innerHTML = "No tiene ningún artículo en el carro de compras";
+    } else {
+        totalprecio.innerHTML = `Total: $${valorCarrito}`;
+    }
+}
+
+
 
 
 

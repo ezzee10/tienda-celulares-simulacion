@@ -19,17 +19,16 @@
                 <p class="nombre"> <?php echo $producto["nombre_producto"] ?> </p>
                 <p class="marca"> <?php echo $producto["marca_producto"] ?> </p>
                 <p class="precio"> $<?php echo $producto["precio_producto"] ?> </p>
-                <button type="button" 
+                <button 
+                        type="button"
                         class="boton" 
-                        onclick="agregarAlCarrito(<?php echo $producto["precio_producto"] ?>, 
-                                                    
-                        )">Comprar</button>
+                        onclick="agregarAlCarrito(<?php echo $producto["precio_producto"] ?>, '<?php echo $producto["nombre_producto"] ?>')">Comprar
+                </button> 
             </div>
            <?php } ?>     
       </div>
 
       <div class="carrito">
-        <h1>Carrito de compras </h1>
       </div> 
     </main>
   </div>

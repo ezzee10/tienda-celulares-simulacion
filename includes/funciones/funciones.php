@@ -11,13 +11,13 @@ function obtenerProducto(){
     }
 }
 
-function obtenerDatos(){
+function obtenerPrecioPorId($id){
     include 'bd.php';
 
     try{
-        return $conn->query("SELECT nombre_producto, precio_producto, foto_producto, marca_producto FROM producto");
+        return $conn->query("SELECT precio_producto FROM producto WHERE id_producto = $id");
     }catch(Exception $e){
-         echo "Error al realizar la consulta" . $e->getMessage() . "<br>";
+        echo "Error al realizar la consulta" . $e->getMessage() . "<br>";
         return false;
     }
 }
