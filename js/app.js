@@ -1,5 +1,4 @@
 
-
 /**CARRITO */
 
 //--------------------------variables globales--------------------------------------//
@@ -54,6 +53,7 @@ const agregarScriptingCarrito = (valor, nombre) => {
     //Agregando los productos with scripting
     const producto = document.createElement("div");
     producto.classList.add("producto");
+    producto.setAttribute("cant-productos", "1");
 
     const fotoProducto = document.createElement("img");
 
@@ -64,6 +64,7 @@ const agregarScriptingCarrito = (valor, nombre) => {
 
     const disminuirCantidad = document.createElement("button");
     disminuirCantidad.innerHTML = "-";
+    disminuirCantidad.addEventListener("click", quitarItems);
 
     const cantidadProductos = document.createElement("div");
     cantidadProductos.classList.add("agregar-productos");
@@ -76,6 +77,7 @@ const agregarScriptingCarrito = (valor, nombre) => {
 
     const aumentarCantidad = document.createElement("button");
     aumentarCantidad.innerHTML = "+";
+    aumentarCantidad.addEventListener("click", agregarItems);
 
     const eliminarProducto = document.createElement("button");
     eliminarProducto.innerHTML = "Eliminar";
@@ -97,15 +99,15 @@ const agregarScriptingCarrito = (valor, nombre) => {
 const deleteProducto = (e) => {
 
     let precio = parseFloat(e.target.parentNode.firstChild.nextSibling.textContent);
+    let cantidadItemsDelProducto = parseInt((e.target.parentNode.getAttribute("cant-productos")));
     e.target.parentElement.remove();
     cantidadItems--;
-    valorCarrito -= precio;
-    carritoEstaVacio();
+    valorCarrito -= (precio * cantidadItemsDelProducto);
+    precioCarrito();
     items.innerHTML = `${cantidadItems} items`;
 }
 
-//El carrito está vacio
-const carritoEstaVacio = () => {
+const precioCarrito = () => {
     if (valorCarrito === 0) {
         totalprecio.innerHTML = ``;
         carritoVacio.innerHTML = "No tiene ningún artículo en el carro de compras";
@@ -113,6 +115,31 @@ const carritoEstaVacio = () => {
         totalprecio.innerHTML = `Total: $${valorCarrito}`;
     }
 }
+
+//Agregar items de un mismo producto 
+const agregarItems = (e) => {
+    let cantidadItems = parseInt((e.target.parentNode.parentNode.getAttribute("cant-productos")));
+    e.target.parentNode.parentNode.setAttribute("cant-productos", `${cantidadItems + 1}`);
+    e.target.parentNode.firstChild.nextSibling.innerHTML = `${cantidadItems + 1}`;
+    let precio = parseFloat(e.target.parentNode.parentNode.firstChild.nextSibling.textContent);
+    valorCarrito += precio;
+    precioCarrito();
+}
+
+//Quitar items de un mismo producto 
+const quitarItems = (e) => {
+    let cantidadItems = parseInt((e.target.parentNode.parentNode.getAttribute("cant-productos")));
+    if (cantidadItems !== 1) {
+        e.target.parentNode.parentNode.setAttribute("cant-productos", `${cantidadItems - 1}`);
+        e.target.parentNode.firstChild.nextSibling.innerHTML = `${cantidadItems - 1}`;
+        let precio = parseFloat(e.target.parentNode.parentNode.firstChild.nextSibling.textContent);
+        valorCarrito -= precio;
+        precioCarrito();
+    }
+}
+
+
+
 
 
 
