@@ -25,9 +25,11 @@ carrito.appendChild(totalContainer);
 
 const containerProducto = document.createElement("div");
 containerProducto.classList.add("container-productos");
+const carritoVacioContainer = document.createElement("div");
 const carritoVacio = document.createElement("p");
 carritoVacio.innerHTML = "No tiene ningún artículo en el carro de compras";
-containerProducto.appendChild(carritoVacio);
+carritoVacioContainer.appendChild(carritoVacio);
+carrito.appendChild(carritoVacioContainer);
 carrito.appendChild(containerProducto);
 
 //----------------------------------funciones-------------------------------------------------------------//
@@ -40,7 +42,7 @@ const agregarAlCarrito = (valor, nombre) => {
     totalprecio.innerHTML = `Total: $${valorCarrito}`;
 
     //Actualizando la cantidad de items y el total de precios
-    items.innerHTML = `${cantidadItems} items`;
+    actualizarLaCantidadItems(cantidadItems);
     totalprecio.innerHTML = `Total: $${valorCarrito}`;
 
     agregarScriptingCarrito(valor, nombre);
@@ -48,11 +50,10 @@ const agregarAlCarrito = (valor, nombre) => {
 }
 
 
-
 const agregarScriptingCarrito = (valor, nombre) => {
     //Agregando los productos with scripting
     const producto = document.createElement("div");
-    producto.classList.add("producto");
+    producto.classList.add("productoCompra");
     producto.setAttribute("cant-productos", "1");
 
     const fotoProducto = document.createElement("img");
@@ -93,6 +94,18 @@ const agregarScriptingCarrito = (valor, nombre) => {
     cantidadProductos.appendChild(aumentarCantidad);
     producto.appendChild(eliminarProducto);
     containerProducto.appendChild(producto);
+
+    if (cantidadItems === 1) {
+        const contenedorEliminarTodo = document.createElement("div");
+        contenedorEliminarTodo.classList.add("eliminar-todo");
+        const botonEliminarTodo = document.createElement("button");
+        botonEliminarTodo.setAttribute("type", "button");
+        botonEliminarTodo.innerHTML = "Vaciar carrito";
+        botonEliminarTodo.addEventListener("click", vaciarCarritoCompleto);
+        carrito.appendChild(contenedorEliminarTodo);
+        contenedorEliminarTodo.appendChild(botonEliminarTodo);
+    }
+
 }
 
 //Eliminar producto añadido al carrito
@@ -103,17 +116,21 @@ const deleteProducto = (e) => {
     e.target.parentElement.remove();
     cantidadItems--;
     valorCarrito -= (precio * cantidadItemsDelProducto);
-    precioCarrito();
-    items.innerHTML = `${cantidadItems} items`;
+    ActualizarprecioCarrito();
+    actualizarLaCantidadItems(cantidadItems);
 }
 
-const precioCarrito = () => {
+const ActualizarprecioCarrito = () => {
     if (valorCarrito === 0) {
         totalprecio.innerHTML = ``;
         carritoVacio.innerHTML = "No tiene ningún artículo en el carro de compras";
     } else {
         totalprecio.innerHTML = `Total: $${valorCarrito}`;
     }
+}
+
+const actualizarLaCantidadItems = (cantidad) => {
+    items.innerHTML = `${cantidad} items`;
 }
 
 //Agregar items de un mismo producto 
@@ -123,7 +140,7 @@ const agregarItems = (e) => {
     e.target.parentNode.firstChild.nextSibling.innerHTML = `${cantidadItems + 1}`;
     let precio = parseFloat(e.target.parentNode.parentNode.firstChild.nextSibling.textContent);
     valorCarrito += precio;
-    precioCarrito();
+    ActualizarprecioCarrito();
 }
 
 //Quitar items de un mismo producto 
@@ -134,11 +151,22 @@ const quitarItems = (e) => {
         e.target.parentNode.firstChild.nextSibling.innerHTML = `${cantidadItems - 1}`;
         let precio = parseFloat(e.target.parentNode.parentNode.firstChild.nextSibling.textContent);
         valorCarrito -= precio;
-        precioCarrito();
+        ActualizarprecioCarrito();
     }
 }
 
-
+const vaciarCarritoCompleto = (e) => {
+    valorCarrito = 0;
+    cantidadItems = 0;
+    let productos = document.getElementsByClassName('productoCompra');
+    let lenght = productos.length;
+    for (let i = 0; i < lenght; i++) {
+        containerProducto.removeChild(productos[0]);
+    }
+    e.target.remove();
+    ActualizarprecioCarrito();
+    actualizarLaCantidadItems(0);
+}
 
 
 
