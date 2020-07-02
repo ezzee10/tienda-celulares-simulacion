@@ -34,12 +34,13 @@ img{
 }
 
 /**UTILIDADES**/
- .container{
+@media (min-width: 768px){
+   .container{
     max-width: 70%;
     margin: 0 auto;
     text-align: center;
   }
-
+}
 
 .boton{
   font-size: 1.2rem;
@@ -50,6 +51,20 @@ img{
   border-radius: 10px;
   color: white;
 }
+
+button:hover{
+  cursor: pointer;
+}
+
+i:hover{
+  cursor: pointer;
+}
+
+.center{
+  text-align: center;
+}
+
+
 
 
 /**HEADER**/
@@ -68,12 +83,13 @@ text-align: center;
 
 /**MAIN**/
 
-.contenido{
+@media (min-width: 768px){
+  .contenido{
     text-align: center;
     display: grid;
     grid-template-columns: 2fr 0.5fr;
+  }
 }
-
 
 .productos{
   display: grid;
@@ -142,8 +158,13 @@ text-align: center;
   color: red;
 }
 
+.container-productos{
+  height: 405px;
+  overflow-y: scroll;
+}
+
 .producto-compra{
-  padding: 0.5rem;
+  padding: 0.7rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-row: 3;
@@ -152,9 +173,9 @@ text-align: center;
   border: 1px solid #e1e1e1;
 }
 
-.producto-compra p:nth-child(2){
-  font-size: 1rem;
-  padding: 0.7rem;
+.precio-producto{
+  color: red;
+  font-size: 1.2rem;
 }
 
 .name{
@@ -183,7 +204,35 @@ text-align: center;
 
 .eliminar-todo{
   background-color: #e1e1e1;
+  padding: 0.3rem;
 }
+
+.eliminar-todo button:hover{
+  cursor: pointer;
+}
+
+.contenedor-pagar{
+  background-color: rgb(231, 173, 65);
+  padding: 0.3rem;
+  width: 100%;
+  color: black;
+  font-weight: 700;
+  display: grid;
+  grid-template-columns: 1fr 0.5fr;
+  align-items: center;
+}
+
+.texto-pagar{
+  font-size: 1.5rem;
+  color: red;
+}
+
+.pagar i{
+  cursor: default;
+}
+
+
+
 
 
 

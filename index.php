@@ -4,8 +4,11 @@
 ?>
 
   <div class="container">
-  <h2>Escoja el modelo que desea comprar</h2>
-    <main class="contenido">
+    <div class="center">
+       <h2>Escoja el modelo que desea comprar</h2>
+</div>
+ 
+    <main class="contenido center">
       
 
       <?php 
@@ -32,6 +35,7 @@
       </div>
 
       <div class="carrito">
+      
       </div> 
     </main>
   </div>

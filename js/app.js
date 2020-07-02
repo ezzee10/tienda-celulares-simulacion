@@ -52,8 +52,6 @@ const agregarScriptingCarrito = (valor, nombre, foto) => {
     const fotoProducto = document.createElement("img");
     fotoProducto.setAttribute("src", foto);
 
-    const valorProducto = document.createElement("p");
-
     const nombreProducto = document.createElement("p");
     nombreProducto.innerHTML = (`${nombre}`);
     nombreProducto.classList.add('name');
@@ -71,6 +69,7 @@ const agregarScriptingCarrito = (valor, nombre, foto) => {
     cantidad.innerHTML = (`${1.0}`);
 
     const precioProducto = document.createElement("p");
+    precioProducto.classList.add('precio-producto');
     precioProducto.innerHTML = (`${valor}`);
 
     const aumentarCantidad = document.createElement("i");
@@ -100,8 +99,21 @@ const agregarScriptingCarrito = (valor, nombre, foto) => {
         botonEliminarTodo.setAttribute("type", "button");
         botonEliminarTodo.innerHTML = "Vaciar carrito";
         botonEliminarTodo.addEventListener("click", vaciarCarritoCompleto);
+
+        const contenedorPagar = document.createElement("button");
+        contenedorPagar.classList.add("contenedor-pagar");
+        const textoPagar = document.createElement("p");
+        textoPagar.classList.add("texto-pagar");
+        textoPagar.innerHTML = "PAGAR";
+        const botonPagar = document.createElement("i");
+        botonPagar.setAttribute("type", "button");
+        botonPagar.classList.add("fas", "fa-cash-register", "fa-2x");
+
         carrito.appendChild(contenedorEliminarTodo);
         contenedorEliminarTodo.appendChild(botonEliminarTodo);
+        contenedorPagar.appendChild(textoPagar);
+        contenedorPagar.appendChild(botonPagar);
+        carrito.appendChild(contenedorPagar);
     }
 
 }
@@ -113,7 +125,7 @@ const deleteProducto = (e) => {
     let cantidadItemsDelProducto = parseInt((e.target.parentNode.getAttribute("cant-productos")));
     e.target.parentElement.remove();
     if (cantidadItems === 1) {
-        eliminarBotonVaciarCarrito();
+        eliminarBotonVaciarCarritoYbotonPagar();
     }
     cantidadItems--;
     valorCarrito -= (precio * cantidadItemsDelProducto);
@@ -167,14 +179,16 @@ const vaciarCarritoCompleto = (e) => {
     for (let i = 0; i < lenght; i++) {
         containerProducto.removeChild(productos[0]);
     }
-    eliminarBotonVaciarCarrito();
+    eliminarBotonVaciarCarritoYbotonPagar();
     ActualizarprecioCarrito();
     actualizarLaCantidadItems(0);
 }
 
-const eliminarBotonVaciarCarrito = () => {
+const eliminarBotonVaciarCarritoYbotonPagar = () => {
     let vaciarTodo = document.getElementsByClassName('eliminar-todo');
     document.getElementsByClassName('carrito')[0].removeChild(vaciarTodo[0]);
+    let botonPagar = document.getElementsByClassName('contenedor-pagar');
+    document.getElementsByClassName('carrito')[0].removeChild(botonPagar[0]);
 }
 
 
