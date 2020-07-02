@@ -4,6 +4,7 @@
 //--------------------------variables globales--------------------------------------//
 let valorCarrito = 0;
 let cantidadItems = 0;
+let productosEnElCarrito = [];
 
 //-----------------------------creación del carrito--------------------------------------//
 const carrito = document.querySelector(".carrito");
@@ -33,25 +34,27 @@ carrito.appendChild(containerProducto);
 
 const agregarAlCarrito = (id_producto) => {
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", `includes/modelos/modelo-tienda.php?id=${id_producto}`, true);
-    xhr.onload = function () {
-        if (this.status === 200 && xhr.readyState == 4) {
-            let datos = JSON.parse(xhr.responseText);
+    if (!estaEnElCarrito(id_producto)) { //si el producto no está en el carrito actualmente entonces lo agrego
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `includes/modelos/modelo-tienda.php?id=${id_producto}`, true);
+        xhr.onload = function () {
+            if (this.status === 200 && xhr.readyState == 4) {
+                let datos = JSON.parse(xhr.responseText); //obtengo los datos de la consulta con AJAX
 
-            valorCarrito += parseFloat(datos.precio);
-            cantidadItems++;
-            //Actualizando la cantidad de items y el total de precios
-            ActualizarprecioCarrito();
-            actualizarLaCantidadItems(cantidadItems);
-            agregarScriptingCarrito(datos);
-            console.log(valorCarrito);
+                valorCarrito += parseFloat(datos.precio); //aumento el valor del carrito
+                cantidadItems++; //aumento la cantidad de items
+                productosEnElCarrito.push(id_producto); //agrego el producto al array
+                ActualizarprecioCarrito(); //actualizo el precio
+                actualizarLaCantidadItems(cantidadItems); //actualizo la cant de items
+                agregarScriptingCarrito(datos); //agrego el scripting del carrito
+                console.log(valorCarrito);
 
-        } else {
-            console.log("No se obtuvieron datos");
+            } else {
+                console.log("No se obtuvieron datos");
+            }
         }
+        xhr.send();
     }
-    xhr.send();
 }
 
 const agregarScriptingCarrito = (datos) => {
@@ -92,7 +95,7 @@ const agregarScriptingCarrito = (datos) => {
     const eliminarProducto = document.createElement("i");
     eliminarProducto.setAttribute("type", "button");
     eliminarProducto.classList.add("fa", "fa-trash", 'fa-2x');
-    eliminarProducto.addEventListener('click', deleteProducto);
+    eliminarProducto.addEventListener('click', function () { deleteProducto(datos.id); });
 
     producto.appendChild(fotoProducto);
     producto.appendChild(precioProducto);
@@ -131,11 +134,16 @@ const agregarScriptingCarrito = (datos) => {
 }
 
 //Eliminar producto añadido al carrito
-const deleteProducto = (e) => {
+const deleteProducto = (id) => {
 
+    eliminarProductoArray(id);
+    console.log(productosEnElCarrito);
+
+    e = event;
     let precio = parseFloat(e.target.parentNode.firstChild.nextSibling.textContent);
     let cantidadItemsDelProducto = parseInt((e.target.parentNode.getAttribute("cant-productos")));
     e.target.parentElement.remove();
+
     if (cantidadItems === 1) {
         eliminarBotonVaciarCarritoYbotonPagar();
     }
@@ -204,8 +212,26 @@ const eliminarBotonVaciarCarritoYbotonPagar = () => {
     document.getElementsByClassName('carrito')[0].removeChild(botonPagar[0]);
 }
 
+//Determina si un producto ya está o no en el carrito
+const estaEnElCarrito = (id) => {
 
+    for (let i = 0; i < productosEnElCarrito.length; i++) {
+        if (productosEnElCarrito[i] === id) {
+            return true;
+        }
+    }
+    return false;
+}
 
+//Devuelve la posición del producto en el array de productos a través del id
+
+const eliminarProductoArray = (id) => {
+    for (let i = 0; i < productosEnElCarrito.length; i++) {
+        if (productosEnElCarrito[i] === parseInt(id)) {
+            productosEnElCarrito.splice(i, 1);
+        }
+    }
+}
 
 
 
