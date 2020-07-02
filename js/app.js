@@ -31,29 +31,41 @@ carrito.appendChild(containerProducto);
 
 //----------------------------------funciones-------------------------------------------------------------//
 
-const agregarAlCarrito = (valor, nombre, foto) => {
+const agregarAlCarrito = (id_producto) => {
 
-    valorCarrito += valor;
-    cantidadItems++;
-    //Actualizando la cantidad de items y el total de precios
-    ActualizarprecioCarrito();
-    actualizarLaCantidadItems(cantidadItems);
-    agregarScriptingCarrito(valor, nombre, foto);
-    console.log(valorCarrito);
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `includes/modelos/modelo-tienda.php?id=${id_producto}`, true);
+    xhr.onload = function () {
+        if (this.status === 200 && xhr.readyState == 4) {
+            let datos = JSON.parse(xhr.responseText);
+
+            valorCarrito += parseFloat(datos.precio);
+            cantidadItems++;
+            //Actualizando la cantidad de items y el total de precios
+            ActualizarprecioCarrito();
+            actualizarLaCantidadItems(cantidadItems);
+            agregarScriptingCarrito(datos);
+            console.log(valorCarrito);
+
+        } else {
+            console.log("No se obtuvieron datos");
+        }
+    }
+    xhr.send();
 }
 
+const agregarScriptingCarrito = (datos) => {
 
-const agregarScriptingCarrito = (valor, nombre, foto) => {
     //Agregando los productos with scripting
     const producto = document.createElement("div");
     producto.classList.add("producto-compra");
     producto.setAttribute("cant-productos", "1");
 
     const fotoProducto = document.createElement("img");
-    fotoProducto.setAttribute("src", foto);
+    fotoProducto.setAttribute("src", `${datos.foto}`);
 
     const nombreProducto = document.createElement("p");
-    nombreProducto.innerHTML = (`${nombre}`);
+    nombreProducto.innerHTML = (`${datos.nombre}`);
     nombreProducto.classList.add('name');
 
     const disminuirCantidad = document.createElement("i");
@@ -70,7 +82,7 @@ const agregarScriptingCarrito = (valor, nombre, foto) => {
 
     const precioProducto = document.createElement("p");
     precioProducto.classList.add('precio-producto');
-    precioProducto.innerHTML = (`${valor}`);
+    precioProducto.innerHTML = (`${datos.precio}`);
 
     const aumentarCantidad = document.createElement("i");
     aumentarCantidad.setAttribute("type", "button");
@@ -182,6 +194,7 @@ const vaciarCarritoCompleto = (e) => {
     eliminarBotonVaciarCarritoYbotonPagar();
     ActualizarprecioCarrito();
     actualizarLaCantidadItems(0);
+
 }
 
 const eliminarBotonVaciarCarritoYbotonPagar = () => {
@@ -190,6 +203,10 @@ const eliminarBotonVaciarCarritoYbotonPagar = () => {
     let botonPagar = document.getElementsByClassName('contenedor-pagar');
     document.getElementsByClassName('carrito')[0].removeChild(botonPagar[0]);
 }
+
+
+
+
 
 
 

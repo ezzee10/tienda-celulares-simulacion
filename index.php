@@ -18,17 +18,14 @@
       <div class="productos">
       <?php foreach($productos as $producto) { ?>
             <div class="producto">
-                <img src="<?php echo $producto['foto_mediana']?>">
+                <img src="<?php echo $producto['foto_producto']?>">
                 <p class="nombre"> <?php echo $producto["nombre_producto"] ?> </p>
                 <p class="marca"> <?php echo $producto["marca_producto"] ?> </p>
                 <p class="precio"> $<?php echo $producto["precio_producto"] ?> </p>
                 <button 
                         type="button"
                         class="boton" 
-                        onclick="agregarAlCarrito(<?php echo $producto["precio_producto"] ?>, 
-                        '<?php echo $producto["nombre_producto"] ?>',
-                        '<?php echo $producto["foto_pequeña"] ?>'
-                        )">Comprar
+                        onclick="agregarAlCarrito(<?php echo $producto["id_producto"] ?>)">Comprar
                 </button> 
             </div>
            <?php } ?>     
